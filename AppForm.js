@@ -1,25 +1,48 @@
-import React from 'react'
+import React, { useState} from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import Database from './Database'
+export default function AppForm({ navigation }) {
 
-export default function AppForm() {
+    const [description, setDescription] = useState('')
+    const [quantity, setQuantity] = useState('')
+
+    function handleDescriptionChange(text) {
+        setDescription(text)
+    }
+
+    function handleQuantityChange(text) {
+        setQuantity(text)
+    }
+    async function handleButtonPress() {
+        const listItem = { description, quantity: parseInt(quantity) }
+        Database.saveItem(listItem)
+        .then(response => navigation.navigate("AppList", listItem))
+       
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Item para comprar</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
+                    onChangeText={handleDescriptionChange}
                     placeholder="O que está faltando em casa?"
                     clearButtonMode='always'
+                    value={description}
                 />
                 <TextInput
                     style={styles.input}
+                    onChangeText={handleQuantityChange}
                     placeholder="Digite a Quantidade"
                     keyboardType='numeric'
                     clearButtonMode='always'
+                    value={quantity}
                 />
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.8}
+                    onPress={handleButtonPress}
                 >
                     <Text style={styles.buttonText}>SALVAR</Text>
                 </TouchableOpacity>
