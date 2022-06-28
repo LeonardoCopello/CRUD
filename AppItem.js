@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
 export default function AppItem(props) {
     return (
-        <View 
+        <View
         style={styles.container}>
             <Text style={styles.textItem}>
-                {props.items}
+                {props.item}
             </Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={styles.deleteButton}
+                    onPress={props.apagar}
                 >
                     <Text style={styles.buttonText}>X</Text>
                 </TouchableOpacity>
@@ -24,7 +25,12 @@ export default function AppItem(props) {
 }
 const styles = StyleSheet.create({
     container: {
+        paddingHorizontal: 10,
         backgroundColor: '#FDFDFD',
+        flexDirection: 'row',
+        height: 35,
+        justifyContent: 'space-between',
+        alignItems: 'center',
         marginTop: 20,
         width: '100%',
     },
@@ -33,16 +39,17 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row-reverse',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#CCCCCC',
         paddingBottom: 10,
         marginTop: 10,
     },
     deleteButton: {
+        justifyContent: 'center',
         marginLeft: 10,
-        height: 40,
-        width: 40,
+        height: 30,
+        width: 30,
         backgroundColor: 'red',
         borderRadius: 10,
         paddind: 10,
@@ -50,10 +57,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     buttonText: {
-        color: '#FDFDFD',
+        color: 'black',
         fontWeight: 'bold',
     },
     editButton: {
-
+        backgroundColor: 'green',
     },
 })

@@ -11,6 +11,14 @@ export default function AppList({ route, navigation }) {
     Database.getItems().then(items => setItems(items));
   },[route])
 
+  // function apagarItem(id) {
+  //     items.find((elem) => {
+  //       return elem.id !== id
+
+  //     })
+
+  // }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lista de Compras</Text>
@@ -18,12 +26,12 @@ export default function AppList({ route, navigation }) {
         style={styles.scrollContainer}
         contentContainerStyle={styles.itemContainer}
       >
-        {items.map(item => {
+        {items.map((item) => {
           return (
             <AppItem
               key={item.id}
-              id={item.id}
-              item={item.quantity + ' de ' + item.descricao}
+              // apagar={() => apagarItem(item.id)}
+              item={item.quantity + ' de ' + item.description}
             />
           )
         })}
@@ -49,6 +57,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    width: '100%',
     
   }
 })

@@ -1,23 +1,37 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import Database from './Database'
-export default function AppForm({ navigation }) {
+export default function AppForm({ navigation, route }) {
 
+    const [id, setId] = useState('')
     const [description, setDescription] = useState('')
     const [quantity, setQuantity] = useState('')
 
     function handleDescriptionChange(text) {
         setDescription(text)
     }
+    useEffect(() => {
+        if (!route.params) return;
+        setId(route.params.id);
+        setDescription(route.params.description);
+        setQuantity(route.params.quantity.toString());
+    }, [route])
 
     function handleQuantityChange(text) {
         setQuantity(text)
     }
     async function handleButtonPress() {
-        const listItem = { description, quantity: parseInt(quantity) }
-        Database.saveItem(listItem)
-        .then(response => navigation.navigate("AppList", listItem))
-       
+        const listItem = { description: description, quantity: parseInt(quantity) }
+        Database.saveItem(listItem, id)
+            .then(response => {
+                setId('');
+                setDescription('')
+                setQuantity('')
+                navigation.navigate("AppList", listItem)
+            })
+    }
+    function handleButtonClear() {
+        Database.apagar()
     }
 
     return (
@@ -45,6 +59,13 @@ export default function AppForm({ navigation }) {
                     onPress={handleButtonPress}
                 >
                     <Text style={styles.buttonText}>SALVAR</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.8}
+                    onPress={handleButtonClear}
+                >
+                    <Text style={styles.buttonText}>APAGAR</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.bottomLine}></View>
